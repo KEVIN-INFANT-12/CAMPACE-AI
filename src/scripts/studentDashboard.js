@@ -43,6 +43,7 @@ async function initStudentData() {
         id: profile.id,
         email: profile.email,
         fullName: profile.full_name,
+        registerNumber: profile.register_number || "",
         department: profile.department || "",
         year: profile.year || "",
         cgpa: parseFloat(profile.cgpa) || 0.0,
@@ -93,6 +94,7 @@ async function saveStudentProfile(updated) {
     .from("profiles")
     .update({
       full_name: me.fullName,
+      register_number: me.registerNumber,
       department: me.department,
       year: me.year,
       cgpa: me.cgpa,
@@ -665,6 +667,10 @@ document.addEventListener("click", (e) => {
 
 $("#profileForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const fullName = ($("#pfName")?.value || "").trim();
+  const registerNumber = ($("#pfReg")?.value || "").trim();
+  const department = ($("#pfDept")?.value || "").trim();
+  const year = ($("#pfYear")?.value || "").trim();
   const cgpa = parseFloat($("#pfCgpa").value);
   const pass = $("#pfPass").value;
   const pass2 = $("#pfPass2")?.value || "";
@@ -672,6 +678,9 @@ $("#profileForm")?.addEventListener("submit", async (e) => {
   const linkedin = ($("#pfLinkedin")?.value || "").trim();
   const github = ($("#pfGithub")?.value || "").trim();
   const msg = $("#pfMsg");
+
+  if (!fullName) { msg.textContent = "Name cannot be empty."; msg.className = "form-msg is-error"; return; }
+  if (!registerNumber) { msg.textContent = "Register Number cannot be empty."; msg.className = "form-msg is-error"; return; }
   if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) { msg.textContent = "Enter a valid CGPA (0–10)."; msg.className = "form-msg is-error"; return; }
   if (phone && !/^\d{10}$/.test(phone)) { msg.textContent = "Phone number must be exactly 10 digits."; msg.className = "form-msg is-error"; return; }
   if (linkedin && !/^https?:\/\/([a-z0-9-]+\.)*linkedin\.com\/.+/i.test(linkedin)) { msg.textContent = "Enter a valid linkedin.com URL."; msg.className = "form-msg is-error"; return; }
@@ -690,12 +699,21 @@ $("#profileForm")?.addEventListener("submit", async (e) => {
   }
   
   try {
-    await saveStudentProfile({ cgpa: cgpa.toFixed(2), phone, linkedin, github });
+    await saveStudentProfile({ 
+      fullName, 
+      registerNumber, 
+      department, 
+      year, 
+      cgpa: cgpa.toFixed(2), 
+      phone, 
+      linkedin, 
+      github 
+    });
     msg.textContent = ""; msg.className = "form-msg";
     toast("Profile updated successfully.");
     notifyOfficer({
       title: "Profile Updated",
-      message: `${me.fullName || "A student"} updated profile.`,
+      message: `${fullName} updated profile.`,
       type: "profile",
     });
     renderAll();
