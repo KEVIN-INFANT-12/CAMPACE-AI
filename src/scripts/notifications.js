@@ -12,17 +12,32 @@ async function loadNotifications() {
       .order("created_at", { ascending: false });
 
     if (data) {
-      notificationsList = data.map((n) => ({
-        id: n.id,
-        userType: n.user_type,
-        userId: n.user_id,
-        title: n.title,
-        message: n.message,
-        type: n.type,
-        company: n.company,
-        isRead: n.is_read,
-        createdAt: new Date(n.created_at).getTime(),
-      }));
+      notificationsList = data.map((n) => {
+        let msg = n.message || "";
+        let userType = "student";
+        let userId = null;
+
+        try {
+          if (n.message && n.message.trim().startsWith("{")) {
+            const parsed = JSON.parse(n.message);
+            msg = parsed.message || "";
+            userType = parsed.userType || "student";
+            userId = parsed.userId || null;
+          }
+        } catch (e) {}
+
+        return {
+          id: n.id,
+          userType,
+          userId,
+          title: n.title,
+          message: msg,
+          type: n.type,
+          company: n.company,
+          isRead: n.is_read,
+          createdAt: new Date(n.created_at).getTime(),
+        };
+      });
       triggerListeners();
     }
   } catch (err) {
@@ -64,11 +79,15 @@ export function unreadCount(opts) {
 }
 
 export async function addNotification(n) {
-  const newNotif = {
-    user_type: n.userType || "student",
-    user_id: n.userId || "officer",
-    title: n.title,
+  const messagePayload = JSON.stringify({
     message: n.message,
+    userType: n.userType || "student",
+    userId: n.userId || "officer",
+  });
+
+  const newNotif = {
+    title: n.title,
+    message: messagePayload,
     type: n.type || "info",
     company: n.company || "",
     is_read: false,
@@ -87,22 +106,25 @@ export async function markRead(id) {
 }
 
 export async function markAllRead(opts) {
-  const { error } = await supabase
-    .from("notifications")
-    .update({ is_read: true })
-    .eq("user_type", opts.userType)
-    .eq("user_id", opts.userId)
-    .eq("is_read", false);
-  if (error) console.error("Error marking all read in Supabase:", error);
+  const targets = notificationsList.filter((n) => matches(n, opts.userType, opts.userId) && !n.isRead);
+  if (!targets.length) return;
+
+  const promises = targets.map((n) =>
+    supabase.from("notifications").update({ is_read: true }).eq("id", n.id)
+  );
+  await Promise.all(promises);
+  loadNotifications();
 }
 
 export async function clearAll(opts) {
-  const { error } = await supabase
-    .from("notifications")
-    .delete()
-    .eq("user_type", opts.userType)
-    .eq("user_id", opts.userId);
-  if (error) console.error("Error clearing notifications in Supabase:", error);
+  const targets = notificationsList.filter((n) => matches(n, opts.userType, opts.userId));
+  if (!targets.length) return;
+
+  const promises = targets.map((n) =>
+    supabase.from("notifications").delete().eq("id", n.id)
+  );
+  await Promise.all(promises);
+  loadNotifications();
 }
 
 export function onNotificationsChange(fn) {
