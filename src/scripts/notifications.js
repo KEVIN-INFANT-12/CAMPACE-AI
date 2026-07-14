@@ -142,10 +142,12 @@ export async function notifyAllStudents(payload) {
 
     if (students) {
       const inserts = students.map((s) => ({
-        user_type: "student",
-        user_id: s.id,
         title: payload.title,
-        message: payload.message,
+        message: JSON.stringify({
+          message: payload.message,
+          userType: "student",
+          userId: s.id,
+        }),
         type: payload.type || "info",
         company: payload.company || "",
         is_read: false,
@@ -184,10 +186,12 @@ export async function notifyStudentsByCompany(company, payload) {
         const studentIds = [...new Set(apps.map((a) => a.student_id))];
 
         const inserts = studentIds.map((sid) => ({
-          user_type: "student",
-          user_id: sid,
           title: payload.title,
-          message: payload.message,
+          message: JSON.stringify({
+            message: payload.message,
+            userType: "student",
+            userId: sid,
+          }),
           type: payload.type || "info",
           company: company,
           is_read: false,

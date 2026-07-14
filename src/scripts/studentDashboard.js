@@ -107,6 +107,7 @@ async function saveStudentProfile(updated) {
 
   if (error) {
     console.error("Error updating student profile in Supabase:", error);
+    throw error;
   }
 }
 
@@ -688,16 +689,21 @@ $("#profileForm")?.addEventListener("submit", async (e) => {
     }
   }
   
-  await saveStudentProfile({ cgpa: cgpa.toFixed(2), phone, linkedin, github });
-  msg.textContent = ""; msg.className = "form-msg";
-  toast("Profile updated successfully.");
-  notifyOfficer({
-    title: "Profile Updated",
-    message: `${me.fullName || "A student"} updated profile.`,
-    type: "profile",
-  });
-  renderAll();
-  fillProfileForm();
+  try {
+    await saveStudentProfile({ cgpa: cgpa.toFixed(2), phone, linkedin, github });
+    msg.textContent = ""; msg.className = "form-msg";
+    toast("Profile updated successfully.");
+    notifyOfficer({
+      title: "Profile Updated",
+      message: `${me.fullName || "A student"} updated profile.`,
+      type: "profile",
+    });
+    renderAll();
+    fillProfileForm();
+  } catch (err) {
+    console.error("Save profile error:", err);
+    toast("Failed to update profile: " + err.message, "error");
+  }
 });
 
 // ---------- modal + toast ----------
