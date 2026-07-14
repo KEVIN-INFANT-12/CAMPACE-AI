@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Officer Dashboard — CAMP-ACE AI</title>
+    <meta name="description" content="Placement Officer control center — manage drives, interviews, announcements, results and analytics." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/animations.css" />
+    <link rel="stylesheet" href="/src/styles/components.css" />
+    <link rel="stylesheet" href="/src/styles/login.css" />
+    <link rel="stylesheet" href="/src/styles/dashboard.css" />
+    <link rel="stylesheet" href="/src/styles/student.css" />
+    <link rel="stylesheet" href="/src/styles/notifications.css" />
+    <link rel="stylesheet" href="/src/styles/ux.css" />
+  </head>
+  <body class="dashboard-page">
+    <div class="dashboard-bg" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+
+    <div class="dash-shell" id="dashShell">
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="dash-sidebar" aria-label="Primary">
+        <a class="brand" href="/index.html" aria-label="CAMP-ACE AI home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" fill="url(#gd)"/><path d="M10 20L16 8L22 20H19L16 14L13 20H10Z" fill="white"/><defs><linearGradient id="gd" x1="0" y1="0" x2="32" y2="32"><stop offset="0%" stop-color="#6366F1"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs></svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">CAMP-ACE AI</span>
+            <span class="brand-tag">Placement Cell</span>
+          </span>
+        </a>
+
+        <nav class="side-nav" aria-label="Sections">
+          <span class="side-section-label">Overview</span>
+          <a class="side-link is-active" href="#" data-view-link="dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span>Dashboard</span>
+          </a>
+
+          <span class="side-section-label">Manage</span>
+          <a class="side-link" href="#" data-view-link="drives">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Placement Drives</span>
+          </a>
+          <a class="side-link" href="#" data-view-link="applications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" x2="15" y1="13" y2="13"/><line x1="9" x2="15" y1="17" y2="17"/></svg>
+            <span>Applications</span>
+          </a>
+          <a class="side-link" href="#" data-view-link="interviews">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <span>Interview Schedule</span>
+          </a>
+          <a class="side-link" href="#" data-view-link="announcements">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8v18l-18-8v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            <span>Announcements</span>
+          </a>
+          <a class="side-link" href="#" data-view-link="results">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.12"/></svg>
+            <span>Results</span>
+          </a>
+          <a class="side-link" href="#" data-view-link="analytics">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            <span>Analytics</span>
+          </a>
+        </nav>
+
+        <div class="side-footer">
+          <a class="side-link side-logout" href="#" id="logoutBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            <span>Logout</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN ============ -->
+      <div class="dash-main">
+        <header class="dash-topbar">
+          <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+          </button>
+          <div class="topbar-title">
+            <span id="viewTitle">Dashboard</span>
+            <small id="viewSubtitle">Placement cell overview</small>
+          </div>
+          <div class="topbar-actions">
+            <div id="notifMount"></div>
+            <div class="topbar-user">
+              <span class="avatar">PO</span>
+              <span>Placement Officer</span>
+            </div>
+          </div>
+        </header>
+
+        <main class="dash-content" id="main">
+
+          <!-- ============ DASHBOARD VIEW ============ -->
+          <section class="dash-view is-active" data-view="dashboard">
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="stat-card-head">
+                  Active Placement Drives
+                  <span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/></svg></span>
+                </div>
+                <div class="stat-card-num" id="statActiveDrives">0</div>
+                <div class="stat-card-sub">Currently open for applications</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-head">
+                  Applications Received
+                  <span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+                </div>
+                <div class="stat-card-num" id="statApplications">—</div>
+                <div class="stat-card-sub">Across all active drives</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-head">
+                  Upcoming Interviews
+                  <span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>
+                </div>
+                <div class="stat-card-num" id="statInterviews">0</div>
+                <div class="stat-card-sub">Scheduled this week</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-head">
+                  Published Announcements
+                  <span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-8v18l-18-8v-2z"/></svg></span>
+                </div>
+                <div class="stat-card-num" id="statAnnouncements">0</div>
+                <div class="stat-card-sub">Live for students</div>
+              </div>
+            </div>
+
+            <!-- Quick actions -->
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Quick Actions</h3>
+                  <p>Jump straight into common tasks</p>
+                </div>
+              </div>
+              <div class="quick-grid">
+                <button class="quick-btn" data-quick-action="drives">
+                  <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg></span>
+                  <strong>Create Placement Drive</strong>
+                  <span>Add a new company drive</span>
+                </button>
+                <button class="quick-btn" data-quick-action="interviews">
+                  <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>
+                  <strong>Schedule Interview</strong>
+                  <span>Pick date, time and venue</span>
+                </button>
+                <button class="quick-btn" data-quick-action="results">
+                  <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></span>
+                  <strong>Publish Results</strong>
+                  <span>Selected & rejected lists</span>
+                </button>
+                <button class="quick-btn" data-quick-action="announcements">
+                  <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8v18l-18-8v-2z"/></svg></span>
+                  <strong>Publish Announcement</strong>
+                  <span>Notify all students</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Recent placement drives -->
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Recent Placement Drives</h3>
+                  <p>Latest drives added to the portal</p>
+                </div>
+                <button class="btn btn-secondary" data-quick-action="drives">View all</button>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Eligibility</th>
+                      <th>Application Deadline</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentDrivesBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ DRIVES VIEW ============ -->
+          <section class="dash-view" data-view="drives">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>All Placement Drives</h3>
+                  <p>Create, edit and manage every drive</p>
+                </div>
+                <button class="btn btn-primary" id="createDriveBtn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                  Create Placement Drive
+                </button>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Eligibility</th>
+                      <th>Application Deadline</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="drivesBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ INTERVIEWS VIEW ============ -->
+          <section class="dash-view" data-view="interviews">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Schedule an Interview</h3>
+                  <p>Plan an interview round for a company drive</p>
+                </div>
+              </div>
+              <form id="interviewForm" class="dash-form" novalidate>
+                <div class="form-group">
+                  <label class="form-label" for="ivCompany">Company</label>
+                  <input class="form-input" id="ivCompany" type="text" placeholder="e.g. Zoho Corporation" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ivVenue">Venue</label>
+                  <input class="form-input" id="ivVenue" type="text" placeholder="e.g. Seminar Hall A" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ivDate">Interview Date</label>
+                  <input class="form-input" id="ivDate" type="date" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="ivTime">Interview Time</label>
+                  <input class="form-input" id="ivTime" type="time" required />
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" id="interviewResetBtn">Reset</button>
+                  <button type="submit" class="btn btn-primary">Publish Schedule</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Scheduled Interviews</h3>
+                  <p>All published interview rounds</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Venue</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="interviewsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ ANNOUNCEMENTS VIEW ============ -->
+          <section class="dash-view" data-view="announcements">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Publish an Announcement</h3>
+                  <p>Only the Placement Officer can create or edit announcements</p>
+                </div>
+              </div>
+              <form id="announcementForm" class="dash-form" novalidate>
+                <div class="form-group full">
+                  <label class="form-label" for="annTitle">Announcement Title</label>
+                  <input class="form-input" id="annTitle" type="text" placeholder="e.g. Zoho drive registration open" required />
+                </div>
+                <div class="form-group full">
+                  <label class="form-label" for="annDesc">Announcement Description</label>
+                  <textarea class="form-input" id="annDesc" placeholder="Share details, links, dates and instructions..." required></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Poster (optional)</label>
+                  <label class="file-drop">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    <span class="file-name" data-default="Upload poster image">Upload poster image</span>
+                    <input type="file" id="annPoster" accept="image/*" />
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">PDF Attachment (optional)</label>
+                  <label class="file-drop">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span class="file-name" data-default="Upload PDF document">Upload PDF document</span>
+                    <input type="file" id="annPdf" accept="application/pdf" />
+                  </label>
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" id="annDraftBtn">Save as Draft</button>
+                  <button type="submit" class="btn btn-primary" id="annPublishBtn">Publish Announcement</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Recent Announcements</h3>
+                  <p>Manage your published and draft announcements</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Published Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="announcementsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ RESULTS VIEW ============ -->
+          <section class="dash-view" data-view="results">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Published Results</h3>
+                  <p>Every company result you have published to students</p>
+                </div>
+                <div class="export-wrap" data-export-wrap="results">
+                  <button type="button" class="btn btn-secondary btn-sm" data-export-toggle>Export ▾</button>
+                  <div class="export-menu" role="menu">
+                    <div class="export-menu-label">Selected Students</div>
+                    <button type="button" data-export="selected-csv">Export Selected (CSV)</button>
+                    <button type="button" data-export="selected-xlsx">Export Selected (Excel)</button>
+                    <div class="export-menu-sep"></div>
+                    <div class="export-menu-label">Rejected Students</div>
+                    <button type="button" data-export="rejected-csv">Export Rejected (CSV)</button>
+                    <button type="button" data-export="rejected-xlsx">Export Rejected (Excel)</button>
+                  </div>
+                </div>
+              </div>
+              <div id="resultsCards" class="results-grid"></div>
+            </div>
+          </section>
+
+          <!-- ============ APPLICATIONS VIEW ============ -->
+          <section class="dash-view" data-view="applications">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Applications</h3>
+                  <p>Select a company to see every student who applied</p>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <span id="appsCountTop" class="muted" style="font-size:0.86rem;"></span>
+                  <button type="button" class="btn btn-secondary btn-sm" id="appResetBtn">Reset Filters</button>
+                  <div class="export-wrap" data-export-wrap="applications">
+                    <button type="button" class="btn btn-secondary btn-sm" data-export-toggle>Export ▾</button>
+                    <div class="export-menu" role="menu">
+                      <div class="export-menu-label">Applications</div>
+                      <button type="button" data-export="apps-csv">Export Applications (CSV)</button>
+                      <button type="button" data-export="apps-xlsx">Export Applications (Excel)</button>
+                      <div class="export-menu-sep"></div>
+                      <div class="export-menu-label">Selected Students</div>
+                      <button type="button" data-export="selected-csv">Export Selected (CSV)</button>
+                      <button type="button" data-export="selected-xlsx">Export Selected (Excel)</button>
+                      <div class="export-menu-sep"></div>
+                      <div class="export-menu-label">Rejected Students</div>
+                      <button type="button" data-export="rejected-csv">Export Rejected (CSV)</button>
+                      <button type="button" data-export="rejected-xlsx">Export Rejected (Excel)</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dash-form" style="grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:12px; margin-bottom:16px;">
+                <div class="form-group full" style="grid-column:span 1;">
+                  <input class="form-input" id="appSearch" type="search" placeholder="Search name, reg no, email, phone, dept or company" />
+                </div>
+                <div class="form-group full" style="grid-column:span 1;">
+                  <select class="form-input form-select" id="appDeptFilter">
+                    <option value="">All Departments</option>
+                    <option>Computer Science &amp; Engineering</option>
+                    <option>Information Technology</option>
+                    <option>Artificial Intelligence &amp; Machine Learning</option>
+                    <option>Artificial Intelligence &amp; Data Science</option>
+                    <option>Computer Science &amp; Business Systems</option>
+                    <option>Computer Science (Cyber Security)</option>
+                    <option>Electronics &amp; Communication Engineering</option>
+                    <option>Electrical &amp; Electronics Engineering</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Civil Engineering</option>
+                    <option>Biomedical Engineering</option>
+                    <option>Biotechnology</option>
+                    <option>Chemical Engineering</option>
+                    <option>Aeronautical Engineering</option>
+                    <option>Automobile Engineering</option>
+                    <option>Mechatronics Engineering</option>
+                    <option>Food Technology</option>
+                    <option>Computer Science &amp; Design</option>
+                  </select>
+                </div>
+                <div class="form-group full" style="grid-column:span 1;">
+                  <select class="form-input form-select" id="appYearFilter">
+                    <option value="">All Years</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+                <div class="form-group full" style="grid-column:span 1;">
+                  <select class="form-input form-select" id="appCompany"><option value="">All Companies</option></select>
+                </div>
+                <div class="form-group full" style="grid-column:span 1;">
+                  <select class="form-input form-select" id="appSort">
+                    <option value="applied_desc">Newest Applied</option>
+                    <option value="applied_asc">Oldest Applied</option>
+                    <option value="cgpa_desc">Highest CGPA</option>
+                    <option value="cgpa_asc">Lowest CGPA</option>
+                    <option value="name_asc">Name A–Z</option>
+                    <option value="name_desc">Name Z–A</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th style="width:36px;"><input type="checkbox" id="appSelectAll" aria-label="Select all" /></th>
+                      <th>Register No</th>
+                      <th>Student Name</th>
+                      <th>Department</th>
+                      <th>Year</th>
+                      <th>CGPA</th>
+                      <th>Resume</th>
+                      <th>Applied Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="appsBody"></tbody>
+                </table>
+              </div>
+
+              <div class="form-actions" style="margin-top:18px;">
+                <span id="appsCount" class="muted" style="margin-right:auto;font-size:0.86rem;"></span>
+                <button type="button" class="btn btn-primary" id="proceedResultsBtn">Proceed to Publish Results</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ ANALYTICS VIEW ============ -->
+          <section class="dash-view" data-view="analytics">
+            <div class="stat-grid stat-grid-3">
+              <div class="stat-card">
+                <div class="stat-card-head">Total Placement Drives<span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/></svg></span></div>
+                <div class="stat-card-num" id="anaTotalDrives">0</div>
+                <div class="stat-card-sub">All drives on record</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-head">Total Applications<span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span></div>
+                <div class="stat-card-num" id="anaTotalApplications">0</div>
+                <div class="stat-card-sub">Across every drive</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-head">Students Placed<span class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+                <div class="stat-card-num" id="anaStudentsPlaced">0</div>
+                <div class="stat-card-sub">Selected via published results</div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Placement Statistics</h3>
+                  <p>Insights across all placement drives</p>
+                </div>
+              </div>
+              <div class="stat-grid stat-grid-3">
+                <div class="stat-card insight-card">
+                  <div class="stat-card-head">Highest Applications</div>
+                  <div class="insight-name" id="anaHighCompany">—</div>
+                  <div class="insight-sub" id="anaHighCount">No applications yet</div>
+                </div>
+                <div class="stat-card insight-card">
+                  <div class="stat-card-head">Lowest Applications</div>
+                  <div class="insight-name" id="anaLowCompany">—</div>
+                  <div class="insight-sub" id="anaLowCount">No applications yet</div>
+                </div>
+                <div class="stat-card insight-card">
+                  <div class="stat-card-head">Most Active Department</div>
+                  <div class="insight-name" id="anaTopDept">—</div>
+                  <div class="insight-sub" id="anaTopDeptCount">No applications yet</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Company Performance</h3>
+                  <p>Applications, selections and placement rate per company</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Applications</th>
+                      <th>Students Selected</th>
+                      <th>Placement Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody id="anaPerfBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Recent Activity</h3>
+                  <p>Latest actions across the placement cell</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>Activity</th>
+                      <th>Name</th>
+                      <th>Date &amp; Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+        </main>
+      </div>
+    </div>
+
+    <!-- ============ MODAL ROOT ============ -->
+    <div class="modal-root" id="modalRoot" aria-hidden="true">
+      <div class="modal-backdrop" data-modal-close></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head">
+          <h3 id="modalTitle">Modal</h3>
+          <button class="icon-btn" data-modal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/scripts/dashboardPage.js"></script>
+  </body>
+</html>

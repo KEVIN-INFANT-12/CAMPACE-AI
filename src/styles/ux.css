@@ -1,0 +1,205 @@
+/* ============ Shared UX States (empty / skeleton / confirm / loading) ============ */
+
+/* --- Empty state --- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  gap: 10px;
+  animation: fadeIn 0.35s var(--ease);
+}
+.empty-state .empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(139,92,246,0.14));
+  border: 1px solid var(--border);
+  color: #c4b5fd;
+  box-shadow: 0 8px 30px -12px rgba(99,102,241,0.35);
+  margin-bottom: 6px;
+}
+.empty-state .empty-icon svg { width: 26px; height: 26px; }
+.empty-state .empty-title {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
+}
+.empty-state .empty-sub {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  max-width: 380px;
+  line-height: 1.5;
+}
+
+tr.empty-row td .empty-state { padding: 28px 16px; }
+
+/* --- Skeleton loaders --- */
+@keyframes uxSkeletonShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: uxSkeletonShimmer 1.4s ease-in-out infinite;
+}
+.skeleton-line { height: 12px; margin: 6px 0; }
+.skeleton-line.sm { height: 10px; width: 40%; }
+.skeleton-line.md { height: 12px; width: 70%; }
+.skeleton-line.lg { height: 14px; width: 90%; }
+.skeleton-block { height: 84px; border-radius: 12px; }
+.skeleton-card {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  display: grid;
+  gap: 8px;
+}
+tr.skeleton-row td { padding: 14px 16px !important; }
+tr.skeleton-row .skeleton-line { margin: 0; }
+
+/* --- Confirm dialog --- */
+.ux-dialog-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.ux-dialog-root.is-open { display: flex; }
+.ux-dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 3, 8, 0.6);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.2s var(--ease);
+}
+.ux-dialog {
+  position: relative;
+  width: min(440px, 100%);
+  background: linear-gradient(160deg, rgba(30,30,36,0.96), rgba(20,20,26,0.96));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 22px 22px 18px;
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn 0.22s var(--ease);
+}
+.ux-dialog-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.ux-dialog-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+.ux-dialog.is-info .ux-dialog-icon { background: rgba(99,102,241,0.16); color: #a5b4fc; border-color: rgba(99,102,241,0.3); }
+.ux-dialog-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1.02rem;
+}
+.ux-dialog-body {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin: 6px 0 18px;
+  line-height: 1.55;
+}
+.ux-dialog-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.ux-dialog-actions .btn { min-width: 96px; }
+.ux-dialog-actions .btn-danger {
+  background: linear-gradient(135deg,#ef4444,#b91c1c);
+  color: #fff;
+  border: none;
+}
+
+/* --- Button loading state --- */
+.btn.is-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.btn.is-loading .btn-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  margin-right: 8px;
+  vertical-align: -2px;
+  animation: uxSpin 0.7s linear infinite;
+}
+@keyframes uxSpin { to { transform: rotate(360deg); } }
+
+/* --- Page transition --- */
+.page-fade { animation: fadeIn 0.35s var(--ease); }
+.dash-view.is-active { animation: fadeIn 0.28s var(--ease); }
+
+/* --- Form invalid highlight --- */
+.form-input.is-invalid,
+.form-input[aria-invalid="true"] {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.14);
+}
+/* ---------------- Multi-select (departments) ---------------- */
+.ms-field { position: relative; display: block; }
+.ms-trigger {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; text-align: left; cursor: pointer; gap: 8px;
+}
+.ms-trigger-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-trigger-label.is-placeholder { color: var(--text-dim, rgba(255,255,255,0.5)); }
+.ms-trigger-arrow { opacity: 0.7; font-size: 0.85rem; }
+.ms-dropdown {
+  position: absolute; z-index: 40; top: calc(100% + 6px); left: 0; right: 0;
+  max-height: 320px; overflow-y: auto;
+  background: rgba(18, 18, 32, 0.96);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  padding: 6px;
+}
+.ms-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  color: var(--text, #fff); font-size: 0.9rem;
+  transition: background 120ms ease;
+}
+.ms-option:hover { background: rgba(255,255,255,0.06); }
+.ms-option input[type="checkbox"] { accent-color: var(--brand, #6366F1); width: 16px; height: 16px; cursor: pointer; }
+.ms-option-all { font-weight: 600; }
+.ms-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 6px 4px; }
+.ms-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.ms-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 6px 4px 10px;
+  background: rgba(99, 102, 241, 0.16);
+  border: 1px solid rgba(99, 102, 241, 0.32);
+  border-radius: 999px; font-size: 0.78rem; color: var(--text, #fff);
+}
+.ms-chip-x {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); color: inherit;
+  border: none; cursor: pointer; font-size: 0.95rem; line-height: 1;
+}
+.ms-chip-x:hover { background: rgba(239, 68, 68, 0.35); }
